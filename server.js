@@ -126,6 +126,9 @@ if (require.main === module) {
       res.statusCode = 404;
       res.end(String(err.message));
     }
+  }).on('error', (e) => {
+    console.error(e.code === 'EADDRINUSE' ? 'Port 3000 is already in use. The visualiser may already be running at http://localhost:3000; stop that copy first.' : e.message);
+    process.exit(1);
   }).listen(3000, host, () => {
     if (!token) return console.log('http://localhost:3000'); // localhost only by default: it can read any folder
     const ips = Object.values(os.networkInterfaces()).flat().filter((i) => i.family === 'IPv4' && !i.internal);
