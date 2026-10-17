@@ -1,0 +1,13 @@
+{
+  "name": "storage-visualiser",
+  "version": "0.1.0",
+  "description": "A modern, simple disk usage visualiser: sunburst, treemap, duplicate connections, cleanup hints.",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

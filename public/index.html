@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storage Visualiser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%2322c55e'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <form id="f">
+    <input id="path" placeholder="Folder path (blank = your home folder)" aria-label="Folder path">
+    <button>Scan</button>
+  </form>
+  <div class="seg" role="group" aria-label="View">
+    <button data-v="sunburst" aria-pressed="true">Sunburst</button>
+    <button data-v="treemap" aria-pressed="false">Treemap</button>
+    <button data-v="graph" aria-pressed="false">Connections</button>
+  </div>
+  <div class="seg" role="group" aria-label="Colour by">
+    <button data-c="type" aria-pressed="true">Type</button>
+    <button data-c="age" aria-pressed="false">Age</button>
+  </div>
+</header>
+<div class="bar"><nav id="crumbs" aria-label="Breadcrumb"></nav><span id="status" aria-live="polite"></span></div>
+<main>
+  <div id="chart"><p id="msg">Enter a folder and press Scan.</p></div>
+  <aside>
+    <div class="tabs" role="group" aria-label="Panels">
+      <button data-t="top" aria-pressed="true">Largest</button>
+      <button data-t="search" aria-pressed="false">Search</button>
+      <button data-t="clean" aria-pressed="false">Cleanup</button>
+      <button data-t="dupes" aria-pressed="false">Duplicates</button>
+    </div>
+    <section id="p-top"><ol id="top"></ol></section>
+    <section id="p-search" hidden>
+      <input id="q" placeholder="Name contains…" aria-label="Name contains">
+      <select id="minsize" aria-label="Minimum size">
+        <option value="0">Any size</option>
+        <option value="1048576">≥ 1 MB</option>
+        <option value="104857600">≥ 100 MB</option>
+        <option value="1073741824">≥ 1 GB</option>
+      </select>
+      <div id="chips"></div>
+      <p class="hint">Files under 1 MB are merged by the scan, so only folders and larger files are searchable.</p>
+      <ol id="found"></ol>
+    </section>
+    <section id="p-clean" hidden><p id="cleanTotal" class="hint"></p><ol id="clean"></ol></section>
+    <section id="p-dupes" hidden>
+      <button id="findDupes">Find duplicates</button>
+      <p id="dupeStatus" class="hint">Compares files of 1 MB or more by content.</p>
+      <ol id="dupes"></ol>
+    </section>
+    <div id="legend"></div>
+  </aside>
+</main>
+<div id="tip" hidden></div>
+<div id="menu" hidden><button data-a="reveal">Show in Explorer</button><button data-a="trash">Move to Recycle Bin…</button></div>
+<div id="toast" role="status" hidden></div>
+<dialog id="dlg">
+  <form method="dialog">
+    <p id="dlgText"></p>
+    <menu><button value="no">Cancel</button><button value="yes" id="dlgYes">Move to Recycle Bin</button></menu>
+  </form>
+</dialog>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="graph.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
